@@ -1,0 +1,218 @@
+:root {
+  --bg: #070711;
+  --panel: rgba(12, 10, 25, 0.72);
+  --text: #f6efff;
+  --muted: #c9bddb;
+  --accent: #b65cff;
+  --accent-2: #64ddff;
+  --danger: #ff4f8b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app,
+.screen {
+  width: 100vw;
+  height: 100vh;
+}
+
+.screen {
+  display: none;
+  position: relative;
+}
+
+.screen-active {
+  display: grid;
+  place-items: center;
+}
+
+#main-menu {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(182, 92, 255, 0.28), transparent 36%),
+    radial-gradient(circle at 20% 75%, rgba(100, 221, 255, 0.18), transparent 32%),
+    linear-gradient(135deg, #090711 0%, #17102b 48%, #05050b 100%);
+}
+
+.ambient-layer {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 68%);
+  animation: pulseLight 5s ease-in-out infinite;
+}
+
+.mist {
+  position: absolute;
+  width: 130vw;
+  height: 44vh;
+  left: -15vw;
+  bottom: -8vh;
+  background: radial-gradient(ellipse at center, rgba(210, 210, 255, 0.15), transparent 68%);
+  filter: blur(24px);
+  opacity: 0.75;
+  animation: drift 18s linear infinite;
+}
+
+.mist-two {
+  bottom: 12vh;
+  animation-duration: 26s;
+  animation-direction: reverse;
+  opacity: 0.36;
+}
+
+.menu-panel,
+.settings-card {
+  position: relative;
+  width: min(92vw, 560px);
+  padding: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 28px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.55), 0 0 60px rgba(182, 92, 255, 0.18);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  font-size: 0.78rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  line-height: 0.95;
+  text-shadow: 0 0 18px rgba(182, 92, 255, 0.75), 0 0 44px rgba(100, 221, 255, 0.25);
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin: 20px auto 32px;
+  max-width: 36ch;
+}
+
+.menu-actions {
+  display: grid;
+  gap: 14px;
+}
+
+.primary-button,
+.ghost-button,
+#back-to-menu {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 22px;
+  cursor: pointer;
+  color: var(--text);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, var(--accent), var(--danger));
+  box-shadow: 0 12px 34px rgba(182, 92, 255, 0.35);
+}
+
+.ghost-button,
+#back-to-menu {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.primary-button:hover,
+.ghost-button:hover,
+#back-to-menu:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(100, 221, 255, 0.18);
+}
+
+#game-screen.screen-active {
+  display: block;
+}
+
+#game-canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  background: #05050b;
+}
+
+.hud {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 18px;
+  background: rgba(5, 5, 12, 0.56);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hud span {
+  color: var(--muted);
+}
+
+.hud button {
+  margin-left: auto;
+  padding: 9px 14px;
+}
+
+.settings-screen {
+  background: linear-gradient(135deg, #070711, #17102b);
+}
+
+.settings-card {
+  text-align: left;
+}
+
+.settings-card label {
+  display: grid;
+  gap: 8px;
+  margin: 20px 0;
+  color: var(--muted);
+}
+
+.settings-card button {
+  width: 100%;
+  margin-top: 12px;
+}
+
+@keyframes pulseLight {
+  0%, 100% { opacity: 0.32; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes drift {
+  from { transform: translateX(-8vw) scale(1); }
+  to { transform: translateX(8vw) scale(1.08); }
+}

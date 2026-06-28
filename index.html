@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amy's World</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app" class="app">
+    <section id="main-menu" class="screen screen-active">
+      <div class="ambient-layer"></div>
+      <div class="mist mist-one"></div>
+      <div class="mist mist-two"></div>
+
+      <div class="menu-panel">
+        <p class="eyebrow">Anime Mystery Adventure</p>
+        <h1>Amy's World</h1>
+        <p class="subtitle">Eine düstere Welt voller Geheimnisse wartet auf Amy.</p>
+
+        <nav class="menu-actions" aria-label="Hauptmenü">
+          <button id="start-game" class="primary-button">Spiel starten</button>
+          <button id="open-settings" class="ghost-button">Einstellungen</button>
+          <button id="exit-game" class="ghost-button">Spiel verlassen</button>
+        </nav>
+      </div>
+    </section>
+
+    <section id="game-screen" class="screen">
+      <canvas id="game-canvas" width="1280" height="720" aria-label="Amy's World Spielbereich"></canvas>
+      <div class="hud">
+        <strong>Amy</strong>
+        <span id="chapter-label">Kapitel 1: Der flüsternde Wald</span>
+        <button id="back-to-menu">Menü</button>
+      </div>
+    </section>
+
+    <section id="settings-screen" class="screen settings-screen">
+      <div class="settings-card">
+        <h2>Einstellungen</h2>
+        <label>
+          Musiklautstärke
+          <input type="range" min="0" max="100" value="60" />
+        </label>
+        <label>
+          Effektlautstärke
+          <input type="range" min="0" max="100" value="70" />
+        </label>
+        <button id="settings-back" class="primary-button">Zurück</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>

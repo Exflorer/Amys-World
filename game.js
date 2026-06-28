@@ -10,13 +10,19 @@ const buttons = {
   exit: document.querySelector('#exit-game'),
   backToMenu: document.querySelector('#back-to-menu'),
   settingsBack: document.querySelector('#settings-back'),
+  attack: document.querySelector('#attack-button'),
+  dash: document.querySelector('#dash-button'),
 };
 
 const canvas = document.querySelector('#game-canvas');
 const ctx = canvas.getContext('2d');
+const joystick = document.querySelector('#joystick');
+const joystickKnob = document.querySelector('#joystick-knob');
 
 let animationId = null;
 let lastTime = 0;
+let attackFlashUntil = 0;
+let dashUntil = 0;
 
 const state = {
   running: false,
@@ -27,6 +33,12 @@ const state = {
     speed: 260,
   },
   keys: new Set(),
+  joystick: {
+    active: false,
+    pointerId: null,
+    x: 0,
+    y: 0,
+  },
   particles: [],
 };
 
@@ -63,6 +75,7 @@ function startGame() {
 
 function stopGame() {
   state.running = false;
+  resetJoystick();
   if (animationId) {
     cancelAnimationFrame(animationId);
     animationId = null;
@@ -70,14 +83,38 @@ function stopGame() {
   showScreen(screens.menu);
 }
 
+function getKeyboardVector() {
+  let x = 0;
+  let y = 0;
+
+  if (state.keys.has('arrowleft') || state.keys.has('a')) x -= 1;
+  if (state.keys.has('arrowright') || state.keys.has('d')) x += 1;
+  if (state.keys.has('arrowup') || state.keys.has('w')) y -= 1;
+  if (state.keys.has('arrowdown') || state.keys.has('s')) y += 1;
+
+  const length = Math.hypot(x, y) || 1;
+  return { x: x / length, y: y / length };
+}
+
+function getMoveVector() {
+  const keyboard = getKeyboardVector();
+  const hasKeyboardInput = keyboard.x !== 0 || keyboard.y !== 0;
+
+  if (state.joystick.active || Math.hypot(state.joystick.x, state.joystick.y) > 0.05) {
+    return { x: state.joystick.x, y: state.joystick.y };
+  }
+
+  return hasKeyboardInput ? keyboard : { x: 0, y: 0 };
+}
+
 function update(delta) {
   const amy = state.amy;
-  const movement = amy.speed * delta;
+  const direction = getMoveVector();
+  const dashBoost = performance.now() < dashUntil ? 2.2 : 1;
+  const movement = amy.speed * dashBoost * delta;
 
-  if (state.keys.has('ArrowLeft') || state.keys.has('a')) amy.x -= movement;
-  if (state.keys.has('ArrowRight') || state.keys.has('d')) amy.x += movement;
-  if (state.keys.has('ArrowUp') || state.keys.has('w')) amy.y -= movement;
-  if (state.keys.has('ArrowDown') || state.keys.has('s')) amy.y += movement;
+  amy.x += direction.x * movement;
+  amy.y += direction.y * movement;
 
   amy.x = Math.max(40, Math.min(window.innerWidth - 40, amy.x));
   amy.y = Math.max(100, Math.min(window.innerHeight - 40, amy.y));
@@ -143,10 +180,23 @@ function drawParticles() {
 
 function drawAmy() {
   const amy = state.amy;
+  const now = performance.now();
+
+  if (now < attackFlashUntil) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255, 79, 139, 0.78)';
+    ctx.lineWidth = 5;
+    ctx.shadowColor = 'rgba(255, 79, 139, 0.9)';
+    ctx.shadowBlur = 28;
+    ctx.beginPath();
+    ctx.arc(amy.x, amy.y, 52, -0.65, 0.95);
+    ctx.stroke();
+    ctx.restore();
+  }
 
   ctx.save();
-  ctx.shadowColor = 'rgba(182, 92, 255, 0.75)';
-  ctx.shadowBlur = 28;
+  ctx.shadowColor = now < dashUntil ? 'rgba(100, 221, 255, 0.95)' : 'rgba(182, 92, 255, 0.75)';
+  ctx.shadowBlur = now < dashUntil ? 42 : 28;
 
   ctx.fillStyle = '#f6efff';
   ctx.beginPath();
@@ -168,7 +218,11 @@ function drawAmy() {
 function drawHint() {
   ctx.fillStyle = 'rgba(255, 255, 255, 0.76)';
   ctx.font = '18px system-ui';
-  ctx.fillText('Bewege Amy mit WASD oder den Pfeiltasten.', 28, window.innerHeight - 34);
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
+  const text = isTouch
+    ? 'Steuere Amy mit dem linken Joystick. Rechts: Angriff und Ausweichen.'
+    : 'Bewege Amy mit WASD oder den Pfeiltasten. Angriff: Leertaste. Dash: Shift.';
+  ctx.fillText(text, 28, window.innerHeight - 34);
 }
 
 function render() {
@@ -192,6 +246,46 @@ function gameLoop(now) {
   animationId = requestAnimationFrame(gameLoop);
 }
 
+function resetJoystick() {
+  state.joystick.active = false;
+  state.joystick.pointerId = null;
+  state.joystick.x = 0;
+  state.joystick.y = 0;
+  joystickKnob.style.transform = 'translate(-50%, -50%)';
+}
+
+function updateJoystick(clientX, clientY) {
+  const rect = joystick.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const maxDistance = rect.width / 2 - 24;
+  const dx = clientX - centerX;
+  const dy = clientY - centerY;
+  const distance = Math.min(Math.hypot(dx, dy), maxDistance);
+  const angle = Math.atan2(dy, dx);
+  const knobX = Math.cos(angle) * distance;
+  const knobY = Math.sin(angle) * distance;
+
+  state.joystick.x = knobX / maxDistance;
+  state.joystick.y = knobY / maxDistance;
+  joystickKnob.style.transform = `translate(calc(-50% + ${knobX}px), calc(-50% + ${knobY}px))`;
+}
+
+function pulseButton(button) {
+  button.classList.add('pressed');
+  window.setTimeout(() => button.classList.remove('pressed'), 140);
+}
+
+function attack() {
+  attackFlashUntil = performance.now() + 180;
+  pulseButton(buttons.attack);
+}
+
+function dash() {
+  dashUntil = performance.now() + 180;
+  pulseButton(buttons.dash);
+}
+
 buttons.start.addEventListener('click', startGame);
 buttons.settings.addEventListener('click', () => showScreen(screens.settings));
 buttons.settingsBack.addEventListener('click', () => showScreen(screens.menu));
@@ -199,6 +293,25 @@ buttons.backToMenu.addEventListener('click', stopGame);
 buttons.exit.addEventListener('click', () => {
   alert('Im Browser kann ein Spiel die Seite nicht zuverlässig schließen. Amy wartet im Schatten weiter ...');
 });
+buttons.attack.addEventListener('pointerdown', (event) => { event.preventDefault(); attack(); });
+buttons.dash.addEventListener('pointerdown', (event) => { event.preventDefault(); dash(); });
+
+joystick.addEventListener('pointerdown', (event) => {
+  event.preventDefault();
+  joystick.setPointerCapture(event.pointerId);
+  state.joystick.active = true;
+  state.joystick.pointerId = event.pointerId;
+  updateJoystick(event.clientX, event.clientY);
+});
+
+joystick.addEventListener('pointermove', (event) => {
+  if (!state.joystick.active || state.joystick.pointerId !== event.pointerId) return;
+  event.preventDefault();
+  updateJoystick(event.clientX, event.clientY);
+});
+
+joystick.addEventListener('pointerup', resetJoystick);
+joystick.addEventListener('pointercancel', resetJoystick);
 
 window.addEventListener('resize', () => {
   resizeCanvas();
@@ -206,7 +319,10 @@ window.addEventListener('resize', () => {
 });
 
 window.addEventListener('keydown', (event) => {
-  state.keys.add(event.key.toLowerCase());
+  const key = event.key.toLowerCase();
+  state.keys.add(key);
+  if (key === ' ') attack();
+  if (key === 'shift') dash();
 });
 
 window.addEventListener('keyup', (event) => {

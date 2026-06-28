@@ -9,52 +9,74 @@
 <body>
   <main id="app" class="app">
     <section id="main-menu" class="screen screen-active home-screen">
-      <div class="sky-glow"></div>
-      <div class="sakura sakura-one"></div>
-      <div class="sakura sakura-two"></div>
-      <div class="floating-petals" aria-hidden="true"></div>
+      <div class="sunset-glow"></div>
+      <div class="petal-field" aria-hidden="true"></div>
+      <div class="meadow" aria-hidden="true">
+        <span class="meadow-item item-a">🌼</span>
+        <span class="meadow-item item-b">🍄</span>
+        <span class="meadow-item item-c">🦋</span>
+        <span class="meadow-item item-d">🐞</span>
+      </div>
 
-      <div class="home-logo" aria-label="Amy's World Logo">
+      <header class="home-logo" aria-label="Amy's World Logo">
         <span>Amy's</span>
         <strong>World</strong>
-        <em>✿</em>
+      </header>
+
+      <section class="amy-scene" aria-label="Amy hält Mr. Hops auf dem Arm">
+        <div class="amy-character">
+          <div class="amy-hair"></div>
+          <div class="amy-head">
+            <span class="amy-eye left"></span>
+            <span class="amy-eye right"></span>
+            <span class="amy-smile"></span>
+          </div>
+          <div class="amy-body"></div>
+          <div class="amy-arm amy-arm-left"></div>
+          <div class="amy-arm amy-arm-right"></div>
+        </div>
+
+        <div id="mr-hops" class="mr-hops on-arm" role="img" aria-label="Mr. Hops, ein flauschiges weißes Kaninchen">
+          <div class="hops-ear hops-ear-left"></div>
+          <div class="hops-ear hops-ear-right"></div>
+          <div class="hops-body">
+            <div class="hops-face">
+              <span class="hops-eye"></span>
+              <span class="hops-eye"></span>
+              <span class="hops-nose"></span>
+              <span class="hops-mouth">⌣</span>
+            </div>
+            <div class="hops-paw hops-paw-left"></div>
+            <div class="hops-paw hops-paw-right"></div>
+            <div class="hops-foot hops-foot-left"></div>
+            <div class="hops-foot hops-foot-right"></div>
+          </div>
+        </div>
+      </section>
+
+      <button id="carrot-button" class="carrot-button" type="button" aria-label="Mr. Hops eine Karotte geben">
+        🥕
+        <span>Karotte geben</span>
+      </button>
+
+      <div id="hops-bubble" class="speech-bubble">
+        Hast du eine Karotte für mich? 🐰🥕
       </div>
 
       <nav class="home-menu" aria-label="Hauptmenü">
-        <button id="start-game" class="home-button highlighted" data-tip="Hier geht es zu den Minispielen!">🎮 <span>Spielen</span></button>
-        <button id="avatar-button" class="home-button" data-tip="Hier kannst du später deinen Avatar anpassen.">👧 <span>Avatar</span></button>
+        <button id="start-game" class="home-button highlighted" data-tip="Erst die Karotte, dann zeige ich dir die Spiele!">🎮 <span>Spielen</span></button>
+        <button id="avatar-button" class="home-button" data-tip="Avatar kommt später dazu.">👧 <span>Avatar</span></button>
         <button id="friends-button" class="home-button" data-tip="Freunde kommen später dazu.">👥 <span>Freunde</span></button>
-        <button id="shop-button" class="home-button" data-tip="Der Shop ist erstmal nur Deko.">🛒 <span>Shop</span></button>
-        <button id="events-button" class="home-button" data-tip="Events sind noch geheim.">📅 <span>Events</span></button>
+        <button id="shop-button" class="home-button" data-tip="Shop ist erstmal nur Deko.">🛒 <span>Shop</span></button>
+        <button id="events-button" class="home-button" data-tip="Events kommen später dazu.">📅 <span>Events</span></button>
         <button id="open-settings" class="home-button" data-tip="Hier kannst du Einstellungen ändern.">⚙️ <span>Einstellungen</span></button>
       </nav>
-
-      <div id="mr-hops" class="mr-hops" role="img" aria-label="Mister Hopps, ein flauschiges weißes Kaninchen">
-        <div class="hops-ear hops-ear-left"></div>
-        <div class="hops-ear hops-ear-right"></div>
-        <div class="hops-body">
-          <div class="hops-face">
-            <span class="hops-eye"></span>
-            <span class="hops-eye"></span>
-            <span class="hops-nose"></span>
-            <span class="hops-mouth">⌣</span>
-          </div>
-          <div class="hops-paw hops-paw-left"></div>
-          <div class="hops-paw hops-paw-right"></div>
-          <div class="hops-foot hops-foot-left"></div>
-          <div class="hops-foot hops-foot-right"></div>
-        </div>
-      </div>
-
-      <div id="hops-bubble" class="speech-bubble">
-        Hallo! Ich bin Mister Hopps 🐰 Tippe auf „Spielen“, dann zeige ich dir die Minispiele!
-      </div>
     </section>
 
     <section id="minigame-screen" class="screen minigame-screen">
       <div class="minigame-bg"></div>
       <div class="minigame-header">
-        <button id="minigames-back" class="round-back">‹</button>
+        <button id="minigames-back" class="round-back" type="button">‹</button>
         <div>
           <p class="eyebrow">Amy's World</p>
           <h2>Minispiele</h2>
@@ -63,7 +85,7 @@
 
       <div class="minigame-intro">
         <div class="mini-hops">🐰</div>
-        <p id="minigame-helper-text">Such dir ein Spiel aus! Manche sind erstmal nur kleine Fake-Portale – für den Roblox-Vibe ✨</p>
+        <p id="minigame-helper-text">Willkommen im Spiele-Hub! Such dir ein Portal aus. Manche sind erstmal Fake für den Roblox-Vibe ✨</p>
       </div>
 
       <div class="fake-search">
@@ -72,66 +94,31 @@
       </div>
 
       <div id="minigame-list" class="minigame-list" aria-label="Minispiele">
-        <button class="minigame-card" data-game="Hops Jump" data-kind="Fake-Portal">
-          <strong>Hops Jump</strong>
-          <span>Springe so hoch du kannst!</span>
-          <em>Fake</em>
-        </button>
-        <button class="minigame-card" data-game="Blüten Match" data-kind="Fake-Portal">
-          <strong>Blüten Match</strong>
-          <span>Finde passende Kirschblüten.</span>
-          <em>Fake</em>
-        </button>
-        <button class="minigame-card" data-game="Flausch Fang" data-kind="Fake-Portal">
-          <strong>Flausch Fang</strong>
-          <span>Sammle flauschige Freunde.</span>
-          <em>Fake</em>
-        </button>
-        <button class="minigame-card" data-game="Reaktions Test" data-kind="Fake-Portal">
-          <strong>Reaktions Test</strong>
-          <span>Zeig deine Reflexe.</span>
-          <em>Fake</em>
-        </button>
+        <button class="minigame-card" data-game="Hops Jump" data-kind="Fake-Portal"><strong>Hops Jump</strong><span>Springe mit Mr. Hops durch Wolken.</span><em>Fake</em></button>
+        <button class="minigame-card" data-game="Blüten Match" data-kind="Fake-Portal"><strong>Blüten Match</strong><span>Finde passende Kirschblüten.</span><em>Fake</em></button>
+        <button class="minigame-card" data-game="Flausch Fang" data-kind="Fake-Portal"><strong>Flausch Fang</strong><span>Sammle flauschige Freunde.</span><em>Fake</em></button>
+        <button class="minigame-card" data-game="Reaktions Test" data-kind="Fake-Portal"><strong>Reaktions Test</strong><span>Zeig deine Reflexe.</span><em>Fake</em></button>
       </div>
     </section>
 
     <section id="game-screen" class="screen">
       <canvas id="game-canvas" width="1280" height="720" aria-label="Amy's World Spielbereich"></canvas>
-
-      <div class="hud">
-        <strong>Amy</strong>
-        <span id="chapter-label">Kapitel 1: Der flüsternde Wald</span>
-        <button id="back-to-menu">Menü</button>
-      </div>
-
+      <div class="hud"><strong>Amy</strong><span id="chapter-label">Kapitel 1: Der flüsternde Wald</span><button id="back-to-menu">Menü</button></div>
       <div id="touch-controls" class="touch-controls" aria-label="Touch-Steuerung">
-        <div id="joystick" class="joystick" aria-label="Bewegungs-Joystick">
-          <div id="joystick-knob" class="joystick-knob"></div>
-        </div>
-
-        <div class="action-buttons" aria-label="Aktionsbuttons">
-          <button id="dash-button" class="action-button small-action" type="button">↯</button>
-          <button id="attack-button" class="action-button" type="button">⚔</button>
-        </div>
+        <div id="joystick" class="joystick" aria-label="Bewegungs-Joystick"><div id="joystick-knob" class="joystick-knob"></div></div>
+        <div class="action-buttons" aria-label="Aktionsbuttons"><button id="dash-button" class="action-button small-action" type="button">↯</button><button id="attack-button" class="action-button" type="button">⚔</button></div>
       </div>
     </section>
 
     <section id="settings-screen" class="screen settings-screen">
       <div class="settings-card">
         <h2>Einstellungen</h2>
-        <label>
-          Musiklautstärke
-          <input type="range" min="0" max="100" value="60" />
-        </label>
-        <label>
-          Effektlautstärke
-          <input type="range" min="0" max="100" value="70" />
-        </label>
+        <label>Musiklautstärke<input type="range" min="0" max="100" value="60" /></label>
+        <label>Effektlautstärke<input type="range" min="0" max="100" value="70" /></label>
         <button id="settings-back" class="primary-button">Zurück</button>
       </div>
     </section>
   </main>
-
   <script src="game.js"></script>
 </body>
 </html>

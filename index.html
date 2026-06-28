@@ -8,21 +8,90 @@
 </head>
 <body>
   <main id="app" class="app">
-    <section id="main-menu" class="screen screen-active">
-      <div class="ambient-layer"></div>
-      <div class="mist mist-one"></div>
-      <div class="mist mist-two"></div>
+    <section id="main-menu" class="screen screen-active home-screen">
+      <div class="sky-glow"></div>
+      <div class="sakura sakura-one"></div>
+      <div class="sakura sakura-two"></div>
+      <div class="floating-petals" aria-hidden="true"></div>
 
-      <div class="menu-panel">
-        <p class="eyebrow">Anime Mystery Adventure</p>
-        <h1>Amy's World</h1>
-        <p class="subtitle">Eine düstere Welt voller Geheimnisse wartet auf Amy.</p>
+      <div class="home-logo" aria-label="Amy's World Logo">
+        <span>Amy's</span>
+        <strong>World</strong>
+        <em>✿</em>
+      </div>
 
-        <nav class="menu-actions" aria-label="Hauptmenü">
-          <button id="start-game" class="primary-button">Spiel starten</button>
-          <button id="open-settings" class="ghost-button">Einstellungen</button>
-          <button id="exit-game" class="ghost-button">Spiel verlassen</button>
-        </nav>
+      <nav class="home-menu" aria-label="Hauptmenü">
+        <button id="start-game" class="home-button highlighted" data-tip="Hier geht es zu den Minispielen!">🎮 <span>Spielen</span></button>
+        <button id="avatar-button" class="home-button" data-tip="Hier kannst du später deinen Avatar anpassen.">👧 <span>Avatar</span></button>
+        <button id="friends-button" class="home-button" data-tip="Freunde kommen später dazu.">👥 <span>Freunde</span></button>
+        <button id="shop-button" class="home-button" data-tip="Der Shop ist erstmal nur Deko.">🛒 <span>Shop</span></button>
+        <button id="events-button" class="home-button" data-tip="Events sind noch geheim.">📅 <span>Events</span></button>
+        <button id="open-settings" class="home-button" data-tip="Hier kannst du Einstellungen ändern.">⚙️ <span>Einstellungen</span></button>
+      </nav>
+
+      <div id="mr-hops" class="mr-hops" role="img" aria-label="Mr. Hops, ein flauschiges weißes Kaninchen">
+        <div class="hops-ear hops-ear-left"></div>
+        <div class="hops-ear hops-ear-right"></div>
+        <div class="hops-body">
+          <div class="hops-face">
+            <span class="hops-eye"></span>
+            <span class="hops-eye"></span>
+            <span class="hops-nose"></span>
+            <span class="hops-mouth">⌣</span>
+          </div>
+          <div class="hops-paw hops-paw-left"></div>
+          <div class="hops-paw hops-paw-right"></div>
+          <div class="hops-foot hops-foot-left"></div>
+          <div class="hops-foot hops-foot-right"></div>
+        </div>
+      </div>
+
+      <div id="hops-bubble" class="speech-bubble">
+        Hallo! Ich bin Mr. Hops 🐰 Tippe auf „Spielen“, dann zeige ich dir die Minispiele!
+      </div>
+    </section>
+
+    <section id="minigame-screen" class="screen minigame-screen">
+      <div class="minigame-bg"></div>
+      <div class="minigame-header">
+        <button id="minigames-back" class="round-back">‹</button>
+        <div>
+          <p class="eyebrow">Amy's World</p>
+          <h2>Minispiele</h2>
+        </div>
+      </div>
+
+      <div class="minigame-intro">
+        <div class="mini-hops">🐰</div>
+        <p id="minigame-helper-text">Such dir ein Spiel aus! Manche sind erstmal nur kleine Fake-Portale – für den Roblox-Vibe ✨</p>
+      </div>
+
+      <div class="fake-search">
+        <span>🔎</span>
+        <input id="fake-search-input" type="text" placeholder="Suche nach Spielen..." autocomplete="off" />
+      </div>
+
+      <div id="minigame-list" class="minigame-list" aria-label="Minispiele">
+        <button class="minigame-card" data-game="Hops Jump" data-kind="Fake-Portal">
+          <strong>Hops Jump</strong>
+          <span>Springe so hoch du kannst!</span>
+          <em>Fake</em>
+        </button>
+        <button class="minigame-card" data-game="Blüten Match" data-kind="Fake-Portal">
+          <strong>Blüten Match</strong>
+          <span>Finde passende Kirschblüten.</span>
+          <em>Fake</em>
+        </button>
+        <button class="minigame-card" data-game="Flausch Fang" data-kind="Fake-Portal">
+          <strong>Flausch Fang</strong>
+          <span>Sammle flauschige Freunde.</span>
+          <em>Fake</em>
+        </button>
+        <button class="minigame-card" data-game="Reaktions Test" data-kind="Fake-Portal">
+          <strong>Reaktions Test</strong>
+          <span>Zeig deine Reflexe.</span>
+          <em>Fake</em>
+        </button>
       </div>
     </section>
 

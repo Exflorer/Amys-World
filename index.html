@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
   <title>Amy's World</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -28,10 +28,22 @@
 
     <section id="game-screen" class="screen">
       <canvas id="game-canvas" width="1280" height="720" aria-label="Amy's World Spielbereich"></canvas>
+
       <div class="hud">
         <strong>Amy</strong>
         <span id="chapter-label">Kapitel 1: Der flüsternde Wald</span>
         <button id="back-to-menu">Menü</button>
+      </div>
+
+      <div id="touch-controls" class="touch-controls" aria-label="Touch-Steuerung">
+        <div id="joystick" class="joystick" aria-label="Bewegungs-Joystick">
+          <div id="joystick-knob" class="joystick-knob"></div>
+        </div>
+
+        <div class="action-buttons" aria-label="Aktionsbuttons">
+          <button id="dash-button" class="action-button small-action" type="button">↯</button>
+          <button id="attack-button" class="action-button" type="button">⚔</button>
+        </div>
       </div>
     </section>
 

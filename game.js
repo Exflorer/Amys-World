@@ -21,24 +21,50 @@ const bubble = document.querySelector('#hops-bubble');
 const minigameHelper = document.querySelector('#minigame-helper-text');
 
 let carrotGiven = false;
+let dialogIndex = 0;
+
+const dialogSteps = [
+  'Karotte? 🐰🥕',
+  'Danke! Jetzt bleibe ich kurz bei Amy und kuschle mich an.',
+  'Tippe auf „Spielen“, dann zeige ich dir die Minispiele.',
+  'Keine Eile. Du kannst mit dem Pfeil weiterklicken. ➜',
+];
 
 function showScreen(target) {
   Object.values(screens).forEach((screen) => screen?.classList.remove('screen-active'));
   target?.classList.add('screen-active');
 }
 
+function ensureNextButton() {
+  if (!bubble || bubble.querySelector('#dialog-next')) return;
+  const next = document.createElement('button');
+  next.id = 'dialog-next';
+  next.className = 'dialog-next';
+  next.type = 'button';
+  next.setAttribute('aria-label', 'Weiter');
+  next.textContent = '➜';
+  next.addEventListener('click', (event) => {
+    event.stopPropagation();
+    dialogIndex = Math.min(dialogIndex + 1, dialogSteps.length - 1);
+    setBubble(dialogSteps[dialogIndex]);
+  });
+  bubble.appendChild(next);
+}
+
 function setBubble(text) {
-  if (bubble) bubble.textContent = text;
+  if (!bubble) return;
+  bubble.innerHTML = `<span class="bubble-text">${text}</span>`;
+  ensureNextButton();
 }
 
 function giveCarrot() {
   carrotGiven = true;
+  dialogIndex = 1;
   buttons.carrot?.classList.add('used');
   if (buttons.carrot) buttons.carrot.disabled = true;
-  setBubble('Danke für die Karotte! 🥕 Jetzt springe ich runter und zeige dir Amy\'s World!');
+  setBubble(dialogSteps[dialogIndex]);
   mrHops?.classList.remove('on-arm');
   mrHops?.classList.add('free');
-  window.setTimeout(() => setBubble('Tippe auf „Spielen“! Dort warten meine Minispiele auf dich. 🐰✨'), 1300);
 }
 
 function openMinigames() {
@@ -77,3 +103,5 @@ searchInput?.addEventListener('input', () => {
     card.style.display = card.textContent.toLowerCase().includes(query) ? '' : 'none';
   });
 });
+
+setBubble(dialogSteps[0]);
